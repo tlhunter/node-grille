@@ -1,0 +1,23 @@
+{
+  "name": "cms",
+  "version": "0.1.0",
+  "description": "Simple CMS using Google Spreadsheets",
+  "main": "lib/registry.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "./node_modules/mocha/bin/mocha"
+  },
+  "author": "Thomas Hunter <thomas.hunter@dena.com>",
+  "license": "BSD",
+  "dependencies": {
+    "async": "^0.9.0",
+    "google-spreadsheet": "^0.2.8",
+    "lodash": "^3.3.1"
+  },
+  "devDependencies": {
+    "mocha": "^2.1.0",
+    "sinon": "^1.12.2"
+  }
+}
