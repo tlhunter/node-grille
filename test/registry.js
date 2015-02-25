@@ -9,6 +9,20 @@ describe("registry", function() {
         registry = new Registry('1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04');
     });
 
+    it("updates timeout", function() {
+        assert.strictEqual(registry.timeout, 10000);
+
+        registry.setTimeout(9000);
+
+        assert.strictEqual(registry.timeout, 9000);
+    });
+
+    it("doesn't get data when not ready", function() {
+        var result = registry.get('collection');
+
+        assert.strictEqual(result, null);
+    });
+
     it("extracts key value pairs", function() {
         var raw = {
             alpha: {
@@ -70,9 +84,12 @@ describe("registry", function() {
                 assert.strictEqual(registry.get('keyvalue', 'seconds_in_minutes'), data.keyvalue.seconds_in_minutes);
                 assert.strictEqual(registry.get('keyvalue', 'hours_in_day'), data.keyvalue.hours_in_day);
 
-                assert.deepEqual(registry.get('levels.0'), data['levels.0']); // TODO
-                assert.deepEqual(registry.get('levels.1'), data['levels.1']); // TODO
-                assert.deepEqual(registry.get('levels.secret'), data['levels.secret']); // TODO
+                // TODO: These should be split on .'s
+                assert.deepEqual(registry.get('levels.0'), data['levels.0']);
+                assert.deepEqual(registry.get('levels.1'), data['levels.1']);
+                assert.deepEqual(registry.get('levels.secret'), data['levels.secret']);
+
+                assert.deepEqual(registry.toJSON(), data);
 
                 done();
             });

@@ -1,6 +1,7 @@
 var assert = require('assert');
 
 var Sheet = require('../lib/sheet.js');
+var ValidationError = require('../lib/errors/validation.js');
 
 describe("sheet", function() {
     var sheet;
@@ -100,8 +101,11 @@ describe("sheet", function() {
             gender: 'string',
             money: 'float',
             pets: 'json',
-            friends: 'array',
-            luckynumbers: 'array.integer'
+            oddsnends: 'array',
+            friends: 'array.string',
+            luckynumbers: 'array.integer',
+            cointosses: 'array.boolean',
+            yarnlengths: 'array.float'
         };
 
         var row = {
@@ -111,8 +115,11 @@ describe("sheet", function() {
             gender: 'm',
             money: '123.45',
             pets: '{ "shadow": "cat", "captain": "betta" }',
+            oddsnends: '[1, "b"]',
             friends: '["john", "jack", "jose"]',
-            luckynumbers: '[1, 2, 3]'
+            luckynumbers: '[1, 2, 3]',
+            cointosses: '[false, true]',
+            yarnlengths: '[1.1, 3.4]'
         };
 
         var converted = Sheet.convertKeys(descriptors, row);
@@ -127,9 +134,221 @@ describe("sheet", function() {
                 shadow: 'cat',
                 captain: 'betta'
             },
+            oddsnends: [1, 'b'],
             friends: ['john', 'jack', 'jose'],
-            luckynumbers: [1, 2, 3]
+            luckynumbers: [1, 2, 3],
+            cointosses: [false, true],
+            yarnlengths: [1.1, 3.4]
         });
+    });
+
+    it("fails validation for boolean", function() {
+        var descriptors = {
+            id: 'integer',
+            alive: 'boolean'
+        };
+
+        var row = {
+            id: 1,
+            alive: 'a'
+        };
+
+        assert.throws(function() {
+            Sheet.convertKeys(descriptors, row);
+        }, ValidationError);
+    });
+
+    it("fails validation for array", function() {
+        var descriptors = {
+            id: 'integer',
+            items: 'array'
+        };
+
+        var row = {
+            id: 1,
+            items: '{}'
+        };
+
+        assert.throws(function() {
+            Sheet.convertKeys(descriptors, row);
+        }, ValidationError);
+
+        var row2 = {
+            id: 1,
+            items: 'a'
+        };
+
+        assert.throws(function() {
+            Sheet.convertKeys(descriptors, row2);
+        }, ValidationError);
+    });
+
+    it("fails validation for array.integer", function() {
+        var descriptors = {
+            id: 'integer',
+            items: 'array.integer'
+        };
+
+        var row = {
+            id: 1,
+            items: '[1, 2, 3.1]'
+        };
+
+        assert.throws(function() {
+            Sheet.convertKeys(descriptors, row);
+        }, ValidationError);
+
+        var row2 = {
+            id: 1,
+            items: 'not json'
+        };
+
+        assert.throws(function() {
+            Sheet.convertKeys(descriptors, row2);
+        }, ValidationError);
+
+        var row3 = {
+            id: 1,
+            items: '{}'
+        };
+
+        assert.throws(function() {
+            Sheet.convertKeys(descriptors, row3);
+        }, ValidationError);
+    });
+
+    it("fails validation for array.string", function() {
+        var descriptors = {
+            id: 'integer',
+            items: 'array.string'
+        };
+
+        var row = {
+            id: 1,
+            items: '["dog", 8]'
+        };
+
+        assert.throws(function() {
+            Sheet.convertKeys(descriptors, row);
+        }, ValidationError);
+
+        var row2 = {
+            id: 1,
+            items: 'not json'
+        };
+
+        assert.throws(function() {
+            Sheet.convertKeys(descriptors, row2);
+        }, ValidationError);
+
+        var row3 = {
+            id: 1,
+            items: '{}'
+        };
+
+        assert.throws(function() {
+            Sheet.convertKeys(descriptors, row3);
+        }, ValidationError);
+    });
+
+    it("fails validation for array.boolean", function() {
+        var descriptors = {
+            id: 'integer',
+            items: 'array.boolean'
+        };
+
+        var row = {
+            id: 1,
+            items: '[true, "FALSE"]'
+        };
+
+        assert.throws(function() {
+            Sheet.convertKeys(descriptors, row);
+        }, ValidationError);
+
+        var row2 = {
+            id: 1,
+            items: 'not json'
+        };
+
+        assert.throws(function() {
+            Sheet.convertKeys(descriptors, row2);
+        }, ValidationError);
+
+        var row3 = {
+            id: 1,
+            items: '{}'
+        };
+
+        assert.throws(function() {
+            Sheet.convertKeys(descriptors, row3);
+        }, ValidationError);
+    });
+
+    it("fails validation for array.float", function() {
+        var descriptors = {
+            id: 'integer',
+            items: 'array.float'
+        };
+
+        var row = {
+            id: 1,
+            items: '[1, 2.2, "c"]'
+        };
+
+        assert.throws(function() {
+            Sheet.convertKeys(descriptors, row);
+        }, ValidationError);
+
+        var row2 = {
+            id: 1,
+            items: 'not json'
+        };
+
+        assert.throws(function() {
+            Sheet.convertKeys(descriptors, row2);
+        }, ValidationError);
+
+        var row3 = {
+            id: 1,
+            items: '{}'
+        };
+
+        assert.throws(function() {
+            Sheet.convertKeys(descriptors, row3);
+        }, ValidationError);
+    });
+
+    it("fails validation with invalid json", function() {
+        var descriptors = {
+            id: 'integer',
+            items: 'json'
+        };
+
+        var row = {
+            id: 1,
+            items: 'not json'
+        };
+
+        assert.throws(function() {
+            Sheet.convertKeys(descriptors, row);
+        }, ValidationError);
+    });
+
+    it("falls back to parsing as string with unknown format", function() {
+        var descriptors = {
+            id: 'integer',
+            items: 'unknown'
+        };
+
+        var row = {
+            id: 1,
+            items: '999'
+        };
+
+        var result = Sheet.convertKeys(descriptors, row);
+
+        assert.strictEqual(result.items, '999');
     });
 
     describe("integration tests", function() {
