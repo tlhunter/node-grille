@@ -19,9 +19,10 @@ content.load(function(err, data) {
 
 	// run application
 });
+```
 
 ## Spreadsheet Configuration
 
-Follow along with the [https://docs.google.com/spreadsheets/d/1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04](Demo Spreadsheet)
+Follow along with the [Demo Spreadsheet](https://docs.google.com/spreadsheets/d/1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04)
 
 At a minimum your spreadsheet needs a meta tab.
