@@ -1,4 +1,5 @@
 var assert = require('assert');
+var sinon = require('sinon');
 
 var Registry = require('../lib/registry.js');
 
@@ -68,9 +69,9 @@ describe("registry", function() {
     });
 
     describe("integration tests", function() {
-        it("loads data", function(done) {
-            this.timeout(10 * 1000);
+        this.timeout(10 * 1000);
 
+        it("loads data", function(done) {
             registry.load(function(err, data) {
                 assert.ifError(err);
 
@@ -93,6 +94,21 @@ describe("registry", function() {
 
                 done();
             });
+        });
+
+        it("doesn't callback twice when timeout occurs", function(done) {
+            registry.setTimeout(100);
+
+            var callback = sinon.spy(function(err, data) {
+                assert(err);
+            });
+
+            registry.load(callback);
+
+            setTimeout(function() {
+                assert(callback.calledOnce);
+                done();
+            }, 6000);
         });
     });
 });
