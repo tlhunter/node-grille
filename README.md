@@ -1,4 +1,6 @@
-# Simple Google Spreadsheet CMS
+# Grille: Google Spreadsheet CMS
+
+Why Grille? Well, they look like a grid... So does a Spreadsheet... eh.
 
 ## Purpose
 
@@ -9,10 +11,10 @@ This does not allow for persisting data in Google Spreadsheets.
 ## Usage
 
 ```javascript
-var Registry = require('cms'); // TODO: Set name here
+var Grille = require('grille');
 var datastore = {};
 
-var content = new Registry('1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04');
+var content = new Grille('1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04');
 
 content.load(function(err, data) {
 	datastore = data;

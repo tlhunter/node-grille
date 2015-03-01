@@ -1,5 +1,5 @@
 {
-  "name": "cms",
+  "name": "grille",
   "version": "0.1.0",
   "description": "Simple CMS using Google Spreadsheets",
   "main": "lib/registry.js",
@@ -9,7 +9,7 @@
   "scripts": {
     "test": "./node_modules/mocha/bin/mocha"
   },
-  "author": "Thomas Hunter <thomas.hunter@dena.com>",
+  "author": "Thomas Hunter II <me@thomashunter.name>",
   "license": "BSD",
   "dependencies": {
     "async": "^0.9.0",
@@ -18,6 +18,7 @@
   },
   "devDependencies": {
     "mocha": "^2.1.0",
+    "redis": "^0.12.1",
     "sinon": "^1.12.2"
   }
 }
