@@ -15,7 +15,7 @@ var Grille = function(sheet_id, storage, timeout) {
 };
 
 /**
- * Load a specific version of data. If no version is provided (e.g. one argument), load most recent version
+ * Loads the current CMS versions data
  */
 Grille.prototype.load = function(callback) {
 	var self = this;
@@ -27,11 +27,17 @@ Grille.prototype.load = function(callback) {
 					return callback(new Error("Couldn't get data"));
 				}
 
-				// TODO: Get version from sheets / sheet
 				self.version = Grille.versionFromDate(self.sheets.last_updated);
 				self.content = data;
 
-				callback(null, data);
+				// TODO: Save to storage
+				self.storage.save(self.version, self.content, function(err) {
+					if (err) {
+						return callback(new Error("Error persisting loaded data"));
+					}
+
+					callback(null, data);
+				});
 			});
 		}
 
@@ -46,12 +52,15 @@ Grille.prototype.load = function(callback) {
  * Loads a specific version of CMS data
  */
 Grille.prototype.loadVersion = function(version, callback) {
+	var self = this;
+
 	this.storage.load(version, function(err, data) {
-		if (err) {
+		if (err || !data) {
 			return callback(new Error("Version " + version + " of CMS data is not available"));
 		}
 		
-		// TODO: Set current version
+		self.version = Grille.versionFromDate(self.sheets.last_updated);
+		self.content = data;
 
 		callback(null, data);
 	});

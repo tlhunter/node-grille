@@ -1,3 +1,5 @@
+'use strict';
+
 var assert = require('assert');
 
 var RedisGrilleStorage = require('../../lib/storage/redis.js');
@@ -43,6 +45,15 @@ describe("RedisGrilleStorage", function() {
 
             assert.deepEqual(content, data);
 
+            done();
+        });
+    });
+
+    it("doesn't load an incorrect version", function(done) {
+        storage.load('8', function(err, data) {
+            assert(err);
+            assert(!data);
+            
             done();
         });
     });
