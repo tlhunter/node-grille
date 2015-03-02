@@ -1,25 +1,25 @@
 var assert = require('assert');
 var sinon = require('sinon');
 
-var Grille = require('../index.js');
+var Sheets = require('../lib/sheets.js');
 
-describe("grille", function() {
-    var grille;
+describe("sheets", function() {
+    var sheets;
 
     before(function() {
-        grille = new Grille('1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04');
+        sheets = new Sheets('1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04');
     });
 
     it("updates timeout", function() {
-        assert.strictEqual(grille.timeout, 10000);
+        assert.strictEqual(sheets.timeout, 10000);
 
-        grille.setTimeout(9000);
+        sheets.setTimeout(9000);
 
-        assert.strictEqual(grille.timeout, 9000);
+        assert.strictEqual(sheets.timeout, 9000);
     });
 
     it("doesn't get data when not ready", function() {
-        var result = grille.get('collection');
+        var result = sheets.get('collection');
 
         assert.strictEqual(result, null);
     });
@@ -36,7 +36,7 @@ describe("grille", function() {
             }
         };
 
-        var extracted = Grille.extractKeyValue(raw);
+        var extracted = Sheets.extractKeyValue(raw);
 
         assert.deepEqual(extracted, {
             alpha: 'A',
@@ -60,7 +60,7 @@ describe("grille", function() {
             }
         };
 
-        var extracted = Grille.extractArray(raw);
+        var extracted = Sheets.extractArray(raw);
 
         assert.deepEqual(extracted, [
             ['A', 'B', 'C'],
@@ -72,38 +72,38 @@ describe("grille", function() {
         this.timeout(10 * 1000);
 
         it("loads data", function(done) {
-            grille.load(function(err, data) {
+            sheets.load(function(err, data) {
                 assert.ifError(err);
 
-                assert.deepEqual(grille.get('people', 1), data.people['1']);
-                assert.deepEqual(grille.get('people', 2), data.people['2']);
-                assert.deepEqual(grille.get('people', 3), data.people['3']);
-                assert.deepEqual(grille.get('people', 4), data.people['4']);
+                assert.deepEqual(sheets.get('people', 1), data.people['1']);
+                assert.deepEqual(sheets.get('people', 2), data.people['2']);
+                assert.deepEqual(sheets.get('people', 3), data.people['3']);
+                assert.deepEqual(sheets.get('people', 4), data.people['4']);
 
-                assert.strictEqual(grille.get('keyvalue', 'title'), data.keyvalue.title);
-                assert.strictEqual(grille.get('keyvalue', 'author'), data.keyvalue.author);
-                assert.strictEqual(grille.get('keyvalue', 'seconds_in_minutes'), data.keyvalue.seconds_in_minutes);
-                assert.strictEqual(grille.get('keyvalue', 'hours_in_day'), data.keyvalue.hours_in_day);
+                assert.strictEqual(sheets.get('keyvalue', 'title'), data.keyvalue.title);
+                assert.strictEqual(sheets.get('keyvalue', 'author'), data.keyvalue.author);
+                assert.strictEqual(sheets.get('keyvalue', 'seconds_in_minutes'), data.keyvalue.seconds_in_minutes);
+                assert.strictEqual(sheets.get('keyvalue', 'hours_in_day'), data.keyvalue.hours_in_day);
 
                 // TODO: These should be split on .'s
-                assert.deepEqual(grille.get('levels.0'), data['levels.0']);
-                assert.deepEqual(grille.get('levels.1'), data['levels.1']);
-                assert.deepEqual(grille.get('levels.secret'), data['levels.secret']);
+                assert.deepEqual(sheets.get('levels.0'), data['levels.0']);
+                assert.deepEqual(sheets.get('levels.1'), data['levels.1']);
+                assert.deepEqual(sheets.get('levels.secret'), data['levels.secret']);
 
-                assert.deepEqual(grille.toJSON(), data);
+                assert.deepEqual(sheets.toJSON(), data);
 
                 done();
             });
         });
 
         it("doesn't callback twice when timeout occurs", function(done) {
-            grille.setTimeout(100);
+            sheets.setTimeout(100);
 
             var callback = sinon.spy(function(err, data) {
                 assert(err);
             });
 
-            grille.load(callback);
+            sheets.load(callback);
 
             setTimeout(function() {
                 assert(callback.calledOnce);
