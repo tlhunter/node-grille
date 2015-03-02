@@ -23,14 +23,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/tlhunter/node-cms.git"
+    "url": "https://github.com/tlhunter/node-grille.git"
   },
   "keywords": [
     "cms",
     "spreadsheet"
   ],
   "bugs": {
-    "url": "https://github.com/tlhunter/node-cms/issues"
+    "url": "https://github.com/tlhunter/node-grille/issues"
   },
-  "homepage": "https://github.com/tlhunter/node-cms"
+  "homepage": "https://github.com/tlhunter/node-grille"
 }
