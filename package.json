@@ -20,5 +20,17 @@
     "mocha": "^2.1.0",
     "redis": "^0.12.1",
     "sinon": "^1.12.2"
-  }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tlhunter/node-cms.git"
+  },
+  "keywords": [
+    "cms",
+    "spreadsheet"
+  ],
+  "bugs": {
+    "url": "https://github.com/tlhunter/node-cms/issues"
+  },
+  "homepage": "https://github.com/tlhunter/node-cms"
 }
