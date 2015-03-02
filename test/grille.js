@@ -1,25 +1,25 @@
 var assert = require('assert');
 var sinon = require('sinon');
 
-var Registry = require('../lib/registry.js');
+var Grille = require('../index.js');
 
-describe("registry", function() {
-    var registry;
+describe("grille", function() {
+    var grille;
 
     before(function() {
-        registry = new Registry('1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04');
+        grille = new Grille('1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04');
     });
 
     it("updates timeout", function() {
-        assert.strictEqual(registry.timeout, 10000);
+        assert.strictEqual(grille.timeout, 10000);
 
-        registry.setTimeout(9000);
+        grille.setTimeout(9000);
 
-        assert.strictEqual(registry.timeout, 9000);
+        assert.strictEqual(grille.timeout, 9000);
     });
 
     it("doesn't get data when not ready", function() {
-        var result = registry.get('collection');
+        var result = grille.get('collection');
 
         assert.strictEqual(result, null);
     });
@@ -36,7 +36,7 @@ describe("registry", function() {
             }
         };
 
-        var extracted = Registry.extractKeyValue(raw);
+        var extracted = Grille.extractKeyValue(raw);
 
         assert.deepEqual(extracted, {
             alpha: 'A',
@@ -60,7 +60,7 @@ describe("registry", function() {
             }
         };
 
-        var extracted = Registry.extractArray(raw);
+        var extracted = Grille.extractArray(raw);
 
         assert.deepEqual(extracted, [
             ['A', 'B', 'C'],
@@ -72,38 +72,38 @@ describe("registry", function() {
         this.timeout(10 * 1000);
 
         it("loads data", function(done) {
-            registry.load(function(err, data) {
+            grille.load(function(err, data) {
                 assert.ifError(err);
 
-                assert.deepEqual(registry.get('people', 1), data.people['1']);
-                assert.deepEqual(registry.get('people', 2), data.people['2']);
-                assert.deepEqual(registry.get('people', 3), data.people['3']);
-                assert.deepEqual(registry.get('people', 4), data.people['4']);
+                assert.deepEqual(grille.get('people', 1), data.people['1']);
+                assert.deepEqual(grille.get('people', 2), data.people['2']);
+                assert.deepEqual(grille.get('people', 3), data.people['3']);
+                assert.deepEqual(grille.get('people', 4), data.people['4']);
 
-                assert.strictEqual(registry.get('keyvalue', 'title'), data.keyvalue.title);
-                assert.strictEqual(registry.get('keyvalue', 'author'), data.keyvalue.author);
-                assert.strictEqual(registry.get('keyvalue', 'seconds_in_minutes'), data.keyvalue.seconds_in_minutes);
-                assert.strictEqual(registry.get('keyvalue', 'hours_in_day'), data.keyvalue.hours_in_day);
+                assert.strictEqual(grille.get('keyvalue', 'title'), data.keyvalue.title);
+                assert.strictEqual(grille.get('keyvalue', 'author'), data.keyvalue.author);
+                assert.strictEqual(grille.get('keyvalue', 'seconds_in_minutes'), data.keyvalue.seconds_in_minutes);
+                assert.strictEqual(grille.get('keyvalue', 'hours_in_day'), data.keyvalue.hours_in_day);
 
                 // TODO: These should be split on .'s
-                assert.deepEqual(registry.get('levels.0'), data['levels.0']);
-                assert.deepEqual(registry.get('levels.1'), data['levels.1']);
-                assert.deepEqual(registry.get('levels.secret'), data['levels.secret']);
+                assert.deepEqual(grille.get('levels.0'), data['levels.0']);
+                assert.deepEqual(grille.get('levels.1'), data['levels.1']);
+                assert.deepEqual(grille.get('levels.secret'), data['levels.secret']);
 
-                assert.deepEqual(registry.toJSON(), data);
+                assert.deepEqual(grille.toJSON(), data);
 
                 done();
             });
         });
 
         it("doesn't callback twice when timeout occurs", function(done) {
-            registry.setTimeout(100);
+            grille.setTimeout(100);
 
             var callback = sinon.spy(function(err, data) {
                 assert(err);
             });
 
-            registry.load(callback);
+            grille.load(callback);
 
             setTimeout(function() {
                 assert(callback.calledOnce);

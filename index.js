@@ -3,13 +3,13 @@
 var async = require('async');
 var _ = require('lodash');
 
-var Sheet = require('./sheet.js');
-var ValidationError = require('./errors/validation.js');
-var TimeoutError = require('./errors/timeout.js');
+var Sheet = require('./lib/sheet.js');
+var ValidationError = require('./lib/errors/validation.js');
+var TimeoutError = require('./lib/errors/timeout.js');
 
 var DEFAULT_TIMEOUT = 10 * 1000;
 
-var Registry = function(sheet_id, timeout) {
+var Grille = function(sheet_id, timeout) {
     this.id = sheet_id;
     this.timeout = timeout || DEFAULT_TIMEOUT;
     this.sheet = new Sheet(sheet_id);
@@ -18,18 +18,18 @@ var Registry = function(sheet_id, timeout) {
     this.ready = false;
 };
 
-Registry.META = 'meta';
+Grille.META = 'meta';
 
-Registry.prototype.setTimeout = function(timeout) {
+Grille.prototype.setTimeout = function(timeout) {
     this.timeout = timeout;
 };
 
-Registry.prototype.load = function(load_callback) {
+Grille.prototype.load = function(load_callback) {
     var self = this;
 
     async.series({
         meta: function(meta_callback) {
-            self.sheet.getSpreadsheetData(Registry.META, function(err, data) {
+            self.sheet.getSpreadsheetData(Grille.META, function(err, data) {
                 if (err) {
                     return meta_callback(err);
                 }
@@ -66,11 +66,11 @@ Registry.prototype.load = function(load_callback) {
 
 };
 
-Registry.prototype.toJSON = function() {
+Grille.prototype.toJSON = function() {
     return this.content;
 };
 
-Registry.prototype.get = function(collection, identifier) {
+Grille.prototype.get = function(collection, identifier) {
     if (!this.ready) {
         return null;
     }
@@ -86,7 +86,7 @@ Registry.prototype.get = function(collection, identifier) {
     return this.content[collection][identifier];
 };
 
-Registry.prototype.loadData = function(collection, type, callback) {
+Grille.prototype.loadData = function(collection, type, callback) {
     var self = this;
     var callbackFired = false;
 
@@ -115,7 +115,7 @@ Registry.prototype.loadData = function(collection, type, callback) {
         if (type === 'hash') {
             self.content[self.meta[collection].collection] = data;
         } else if (type === 'keyvalue') {
-            data = Registry.extractKeyValue(data);
+            data = Grille.extractKeyValue(data);
 
             if (!self.content[self.meta[collection].collection]) {
                 self.content[self.meta[collection].collection] = {};
@@ -125,14 +125,14 @@ Registry.prototype.loadData = function(collection, type, callback) {
             _.extend(self.content[self.meta[collection].collection], data);
         } else if (type === 'array') {
             // TODO: Break up object on .'s
-            self.content[self.meta[collection].collection] = Registry.extractArray(data);
+            self.content[self.meta[collection].collection] = Grille.extractArray(data);
         }
 
         callback(null);
     });
 };
 
-Registry.extractKeyValue = function(keyvalues) {
+Grille.extractKeyValue = function(keyvalues) {
     Object.keys(keyvalues).map(function(key) {
         keyvalues[key] = keyvalues[key].value;
     });
@@ -140,7 +140,7 @@ Registry.extractKeyValue = function(keyvalues) {
     return keyvalues;
 };
 
-Registry.extractArray = function(values) {
+Grille.extractArray = function(values) {
     var array = [];
     var rows = Object.keys(values).length;
     var columns = Object.keys(values['1']).length - 1; // id column is 1
@@ -155,7 +155,7 @@ Registry.extractArray = function(values) {
     return array;
 };
 
-Registry.ValidationError = ValidationError;
-Registry.TimeoutError = TimeoutError;
+Grille.ValidationError = ValidationError;
+Grille.TimeoutError = TimeoutError;
 
-module.exports = Registry;
+module.exports = Grille;
