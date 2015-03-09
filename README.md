@@ -6,6 +6,7 @@ Why Grille? Well, they look like a grid... So does a Spreadsheet... eh.
 
 Retrieve application data from Google Spreadsheets and store in memory.
 It's sort of like a Content Management System, but if you're storing HTML or WYSIWYG content you're doing it wrong.
+Instead, use this for storing data which needs to be easily configured, e.g. part catalogs or application tuning data.
 
 This does not allow for persisting data in Google Spreadsheets.
 
@@ -13,12 +14,11 @@ This does not allow for persisting data in Google Spreadsheets.
 
 ```javascript
 var Grille = require('grille');
-var datastore = {};
 
-var content = new Grille('1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04');
+var grille = new Grille('1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04');
 
-content.load(function(err, data) {
-	datastore = data;
+grille.load(function(err, data) {
+    console.log(grille.get('keyvalue', 'author'));
 
 	// run application
 });
