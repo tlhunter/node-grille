@@ -10,7 +10,7 @@ describe("Grille", function() {
     var grille = new Grille('1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04', storage);
     var version;
 
-    beforeEach(function(done) {
+    before(function(done) {
         storage.clear(done);
     });
 

@@ -13,6 +13,10 @@ describe("RedisGrilleStorage", function() {
         }
     };
 
+    before(function(done) {
+        storage.clear(done);
+    });
+
     it("sets default version", function(done) {
         storage.setDefaultVersion('20150301164200', function(err) {
             assert.ifError(err);
