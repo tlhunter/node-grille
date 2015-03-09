@@ -1,13 +1,15 @@
+'use strict';
+
 var assert = require('assert');
 
-var Sheet = require('../lib/sheet.js');
+var Worksheet = require('../lib/worksheet.js');
 var ValidationError = require('../lib/errors/validation.js');
 
-describe("sheet", function() {
-    var sheet;
+describe("worksheet", function() {
+    var worksheet;
 
     before(function() {
-        sheet = new Sheet('1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04');
+        worksheet = new Worksheet('1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04');
     });
 
     it("removes excess keys", function() {
@@ -24,7 +26,7 @@ describe("sheet", function() {
             del: function() {}
         };
 
-        var parsed = Sheet.removeExcessKeys(raw);
+        var parsed = Worksheet.removeExcessKeys(raw);
 
         assert.deepEqual(parsed, {
             id: '2',
@@ -59,7 +61,7 @@ describe("sheet", function() {
             }]
         };
 
-        var index = Sheet.getIndexFromInfo('meta', sheetInfo);
+        var index = Worksheet.getIndexFromInfo('meta', sheetInfo);
 
         assert.strictEqual(index, 2);
     });
@@ -88,7 +90,7 @@ describe("sheet", function() {
             }]
         };
 
-        var badIndex = Sheet.getIndexFromInfo('fake', sheetInfo);
+        var badIndex = Worksheet.getIndexFromInfo('fake', sheetInfo);
 
         assert.strictEqual(badIndex, null);
     });
@@ -122,7 +124,7 @@ describe("sheet", function() {
             yarnlengths: '[1.1, 3.4]'
         };
 
-        var converted = Sheet.convertKeys(descriptors, row);
+        var converted = Worksheet.convertKeys(descriptors, row);
 
         assert.deepEqual(converted, {
             id: 1,
@@ -154,7 +156,7 @@ describe("sheet", function() {
         };
 
         assert.throws(function() {
-            Sheet.convertKeys(descriptors, row);
+            Worksheet.convertKeys(descriptors, row);
         }, ValidationError);
     });
 
@@ -170,7 +172,7 @@ describe("sheet", function() {
         };
 
         assert.throws(function() {
-            Sheet.convertKeys(descriptors, row);
+            Worksheet.convertKeys(descriptors, row);
         }, ValidationError);
 
         var row2 = {
@@ -179,7 +181,7 @@ describe("sheet", function() {
         };
 
         assert.throws(function() {
-            Sheet.convertKeys(descriptors, row2);
+            Worksheet.convertKeys(descriptors, row2);
         }, ValidationError);
     });
 
@@ -195,7 +197,7 @@ describe("sheet", function() {
         };
 
         assert.throws(function() {
-            Sheet.convertKeys(descriptors, row);
+            Worksheet.convertKeys(descriptors, row);
         }, ValidationError);
 
         var row2 = {
@@ -204,7 +206,7 @@ describe("sheet", function() {
         };
 
         assert.throws(function() {
-            Sheet.convertKeys(descriptors, row2);
+            Worksheet.convertKeys(descriptors, row2);
         }, ValidationError);
 
         var row3 = {
@@ -213,7 +215,7 @@ describe("sheet", function() {
         };
 
         assert.throws(function() {
-            Sheet.convertKeys(descriptors, row3);
+            Worksheet.convertKeys(descriptors, row3);
         }, ValidationError);
     });
 
@@ -229,7 +231,7 @@ describe("sheet", function() {
         };
 
         assert.throws(function() {
-            Sheet.convertKeys(descriptors, row);
+            Worksheet.convertKeys(descriptors, row);
         }, ValidationError);
 
         var row2 = {
@@ -238,7 +240,7 @@ describe("sheet", function() {
         };
 
         assert.throws(function() {
-            Sheet.convertKeys(descriptors, row2);
+            Worksheet.convertKeys(descriptors, row2);
         }, ValidationError);
 
         var row3 = {
@@ -247,7 +249,7 @@ describe("sheet", function() {
         };
 
         assert.throws(function() {
-            Sheet.convertKeys(descriptors, row3);
+            Worksheet.convertKeys(descriptors, row3);
         }, ValidationError);
     });
 
@@ -263,7 +265,7 @@ describe("sheet", function() {
         };
 
         assert.throws(function() {
-            Sheet.convertKeys(descriptors, row);
+            Worksheet.convertKeys(descriptors, row);
         }, ValidationError);
 
         var row2 = {
@@ -272,7 +274,7 @@ describe("sheet", function() {
         };
 
         assert.throws(function() {
-            Sheet.convertKeys(descriptors, row2);
+            Worksheet.convertKeys(descriptors, row2);
         }, ValidationError);
 
         var row3 = {
@@ -281,7 +283,7 @@ describe("sheet", function() {
         };
 
         assert.throws(function() {
-            Sheet.convertKeys(descriptors, row3);
+            Worksheet.convertKeys(descriptors, row3);
         }, ValidationError);
     });
 
@@ -297,7 +299,7 @@ describe("sheet", function() {
         };
 
         assert.throws(function() {
-            Sheet.convertKeys(descriptors, row);
+            Worksheet.convertKeys(descriptors, row);
         }, ValidationError);
 
         var row2 = {
@@ -306,7 +308,7 @@ describe("sheet", function() {
         };
 
         assert.throws(function() {
-            Sheet.convertKeys(descriptors, row2);
+            Worksheet.convertKeys(descriptors, row2);
         }, ValidationError);
 
         var row3 = {
@@ -315,7 +317,7 @@ describe("sheet", function() {
         };
 
         assert.throws(function() {
-            Sheet.convertKeys(descriptors, row3);
+            Worksheet.convertKeys(descriptors, row3);
         }, ValidationError);
     });
 
@@ -331,7 +333,7 @@ describe("sheet", function() {
         };
 
         assert.throws(function() {
-            Sheet.convertKeys(descriptors, row);
+            Worksheet.convertKeys(descriptors, row);
         }, ValidationError);
     });
 
@@ -346,7 +348,7 @@ describe("sheet", function() {
             items: '999'
         };
 
-        var result = Sheet.convertKeys(descriptors, row);
+        var result = Worksheet.convertKeys(descriptors, row);
 
         assert.strictEqual(result.items, '999');
     });
@@ -355,7 +357,7 @@ describe("sheet", function() {
         it("loads data", function(done) {
             this.timeout(10 * 1000);
 
-            sheet.getSpreadsheetData('people', function(err, data) {
+            worksheet.getSpreadsheetData('people', function(err, data) {
                 assert.ifError(err);
 
                 assert.deepEqual(data, {

@@ -91,3 +91,9 @@ The spreadhseet above will generate the following data:
     }
 }
 ```
+
+## Classes
+
+* Worksheet: A single worksheet
+* Spreadsheet: A collection of worksheets
+* Grille: The CMS

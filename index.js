@@ -1,9 +1,9 @@
 'use strict';
 
-var Sheets = require('./lib/sheets.js');
+var Spreadsheet = require('./lib/spreadsheet.js');
 
-var Grille = function(sheet_id, storage, timeout) {
-	this.sheet_id = sheet_id;
+var Grille = function(spreadsheet_id, storage, timeout) {
+	this.spreadsheet_id = spreadsheet_id;
 	this.storage = storage;
 	this.timeout = timeout;
 	this.content = {};
@@ -11,7 +11,7 @@ var Grille = function(sheet_id, storage, timeout) {
 	this.version = null;
 	this.ready = false;
 
-	this.sheets = new Sheets(sheet_id, timeout);
+	this.spreadsheet = new Spreadsheet(spreadsheet_id, timeout);
 };
 
 /**
@@ -22,12 +22,12 @@ Grille.prototype.load = function(callback) {
 
 	this.storage.loadCurrentVersion(function(err, data) {
 		if (err || !data) {
-			return self.sheets.load(function(err, data) {
+			return self.spreadsheet.load(function(err, data) {
 				if (err) {
 					return callback(new Error("Couldn't get data"));
 				}
 
-				self.version = Grille.versionFromDate(self.sheets.last_updated);
+				self.version = Grille.versionFromDate(self.spreadsheet.last_updated);
 				self.content = data;
 
 				// TODO: Save to storage
@@ -59,7 +59,7 @@ Grille.prototype.loadVersion = function(version, callback) {
 			return callback(new Error("Version " + version + " of CMS data is not available"));
 		}
 		
-		self.version = Grille.versionFromDate(self.sheets.last_updated);
+		self.version = Grille.versionFromDate(self.spreadsheet.last_updated);
 		self.content = data;
 
 		callback(null, data);
@@ -67,20 +67,20 @@ Grille.prototype.loadVersion = function(version, callback) {
 };
 
 /**
- * Makes a request to Google Sheets, grabbing the latest version of content.
+ * Makes a request to Google Spreadsheets, grabbing the latest version of content.
  * It also checks the date for version purposes
  * It then updates the local version and content
  */
 Grille.prototype.update = function(callback) {
 	var self = this;
 
-	this.sheets.load(function(err) {
+	this.spreadsheet.load(function(err) {
 		if (err) {
 			return callback(err);
 		}
 
-		self.content = self.sheets.content;
-		self.version = Grille.versionFromDate(self.sheets.last_updated);
+		self.content = self.spreadsheet.content;
+		self.version = Grille.versionFromDate(self.spreadsheet.last_updated);
 
 		self.storage.save(self.version, self.content, function(err) {
 			if (err) {
@@ -99,7 +99,7 @@ Grille.prototype.update = function(callback) {
 };
 
 Grille.prototype.get = function(collection, identifier) {
-	return this.ready && this.sheets.get(collection, identifier);
+	return this.ready && this.spreadsheet.get(collection, identifier);
 };
 
 Grille.versionFromDate = function(date) {
