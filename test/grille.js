@@ -2,7 +2,7 @@
 
 var assert = require('assert');
 
-var Grille = require('../index.js');
+var Grille = require('../lib/grille.js');
 var RedisGrilleStorage = require('../lib/storage/redis.js');
 
 describe("Grille", function() {
