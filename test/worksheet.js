@@ -9,7 +9,7 @@ describe("worksheet", function() {
     var worksheet;
 
     before(function() {
-        worksheet = new Worksheet('1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04');
+        worksheet = new Worksheet('1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04', 'people');
     });
 
     it("removes excess keys", function() {
@@ -61,7 +61,7 @@ describe("worksheet", function() {
             }]
         };
 
-        var index = Worksheet.getIndexFromInfo('meta', sheetInfo);
+        var index = Worksheet.getIndex('meta', sheetInfo);
 
         assert.strictEqual(index, 2);
     });
@@ -90,7 +90,7 @@ describe("worksheet", function() {
             }]
         };
 
-        var badIndex = Worksheet.getIndexFromInfo('fake', sheetInfo);
+        var badIndex = Worksheet.getIndex('fake', sheetInfo);
 
         assert.strictEqual(badIndex, null);
     });
@@ -357,7 +357,7 @@ describe("worksheet", function() {
         it("loads data", function(done) {
             this.timeout(10 * 1000);
 
-            worksheet.getSpreadsheetData('people', function(err, data) {
+            worksheet.load(function(err, data) {
                 assert.ifError(err);
 
                 assert.deepEqual(data, {

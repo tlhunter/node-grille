@@ -38,7 +38,7 @@ describe("spreadsheet", function() {
             }
         };
 
-        var extracted = spreadsheet.extractKeyValue(raw);
+        var extracted = Spreadsheet.extractKeyValue(raw);
 
         assert.deepEqual(extracted, {
             alpha: 'A',
@@ -62,7 +62,7 @@ describe("spreadsheet", function() {
             }
         };
 
-        var extracted = spreadsheet.extractArray(raw);
+        var extracted = Spreadsheet.extractArray(raw);
 
         assert.deepEqual(extracted, [
             ['A', 'B', 'C'],
