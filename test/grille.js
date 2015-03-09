@@ -44,7 +44,25 @@ describe("Grille", function() {
             });
         });
 
+        it("loads data from storage when available", function(done) {
+            this.timeout(100);
+
+            assert.strictEqual(grille.version, version);
+
+            grille.load(function(err, data) {
+                assert.ifError(err);
+
+                assert.equal(grille.version.length, 14);
+                assert(grille.content.keyvalue);
+                assert(grille.content.people);
+
+                done();
+            });
+        });
+
         it("loads exact version of data", function(done) {
+            this.timeout(100);
+
             grille.loadVersion(version, function(err, data) {
                 assert.ifError(err);
 
