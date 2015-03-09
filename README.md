@@ -17,10 +17,17 @@ var Grille = require('grille');
 
 var grille = new Grille('1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04');
 
-grille.load(function(err, data) {
+grille.load(function(err) {
     console.log(grille.get('keyvalue', 'author'));
 
 	// run application
+});
+
+// Whenever you want to update Grille to use the lastest data
+console.log('old version', grille.version);
+grille.update(function(err) {
+    console.log(grille.get('keyvalue', 'author'));
+    console.log('new version', grille.version);
 });
 ```
 
