@@ -5,6 +5,7 @@ Why Grille? Well, they look like a grid... So does a Spreadsheet... eh.
 ## Purpose
 
 Retrieve application data from Google Spreadsheets and store in memory.
+It's sort of like a Content Management System, but if you're storing HTML or WYSIWYG content you're doing it wrong.
 
 This does not allow for persisting data in Google Spreadsheets.
 
@@ -92,8 +93,8 @@ The spreadhseet above will generate the following data:
 }
 ```
 
-## Classes
+## Class Breakdown
 
-* Worksheet: A single worksheet
-* Spreadsheet: A collection of worksheets
-* Grille: The CMS
+* Worksheet: Represents a single tab in a Google Spreadsheet
+* Spreadsheet: Represents a Google Spreadsheet
+* Grille: Persists and loads data related to a Spreadsheet
