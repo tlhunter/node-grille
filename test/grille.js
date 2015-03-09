@@ -24,36 +24,54 @@ describe("Grille", function() {
         });
     });
 
-    it("loads data from google spreadsheets when no default version is set", function(done) {
+    describe("integration tests", function() {
         this.timeout(10 * 1000);
 
-        assert.strictEqual(grille.version, null);
+        it("loads data from google spreadsheets when no default version is set", function(done) {
 
-        grille.load(function(err, data) {
-            assert.ifError(err);
+            assert.strictEqual(grille.version, null);
 
-            assert.equal(grille.version.length, 14);
-            assert(grille.content.keyvalue);
-            assert(grille.content.people);
+            grille.load(function(err, data) {
+                assert.ifError(err);
 
-            version = grille.version;
+                assert.equal(grille.version.length, 14);
+                assert(grille.content.keyvalue);
+                assert(grille.content.people);
 
-            done();
+                version = grille.version;
+
+                done();
+            });
         });
-    });
 
-    it("loads exact version of data", function(done) {
-        this.timeout(4 * 1000);
+        it("loads exact version of data", function(done) {
+            grille.loadVersion(version, function(err, data) {
+                assert.ifError(err);
 
-        grille.loadVersion(version, function(err, data) {
-            assert.ifError(err);
+                assert.equal(grille.version.length, 14);
+                assert.strictEqual(version, grille.version);
+                assert(grille.content.keyvalue);
+                assert(grille.content.people);
 
-            assert.equal(grille.version.length, 14);
-            assert.strictEqual(version, grille.version);
-            assert(grille.content.keyvalue);
-            assert(grille.content.people);
+                done();
+            });
+        });
 
-            done();
+        it("grabs new content from Google replacing the same version", function(done) {
+            grille.update(function(err, data, version) {
+                assert.ifError(err);
+
+                assert.equal(grille.version.length, 14);
+
+                // Unforunately we can't test the content being updated during the test
+                // Version numbers are based on last modified time of sheet
+                assert.strictEqual(version, grille.version);
+
+                assert.deepEqual(grille.content.keyvalue, data.keyvalue);
+                assert.deepEqual(grille.content.people, data.people);
+
+                done();
+            });
         });
     });
 });

@@ -354,9 +354,9 @@ describe("Worksheet", function() {
     });
 
     describe("integration tests", function() {
-        it("loads data", function(done) {
-            this.timeout(10 * 1000);
+        this.timeout(10 * 1000);
 
+        it("loads data", function(done) {
             worksheet.load(function(err, data) {
                 assert.ifError(err);
 
