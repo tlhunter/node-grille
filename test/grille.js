@@ -42,21 +42,6 @@ describe("Grille", function() {
         });
     });
 
-    it("loads data from redis when data is cached", function(done) {
-        this.timeout(4 * 1000);
-
-        grille.load(function(err, data) {
-            assert.ifError(err);
-
-            assert.equal(grille.version.length, 14);
-            assert.strictEqual(version, grille.version);
-            assert(grille.content.keyvalue);
-            assert(grille.content.people);
-
-            done();
-        });
-    });
-
     it("loads exact version of data", function(done) {
         this.timeout(4 * 1000);
 
