@@ -5,7 +5,7 @@ var assert = require('assert');
 var Grille = require('../index.js');
 var RedisGrilleStorage = require('../lib/storage/redis.js');
 
-describe("grille", function() {
+describe("Grille", function() {
     var storage = new RedisGrilleStorage();
     var grille = new Grille('1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04', storage);
     var version;
@@ -24,7 +24,7 @@ describe("grille", function() {
         });
     });
 
-    it("loads data from google spreadsheets when no current version is set", function(done) {
+    it("loads data from google spreadsheets when no default version is set", function(done) {
         this.timeout(10 * 1000);
 
         assert.strictEqual(grille.version, null);

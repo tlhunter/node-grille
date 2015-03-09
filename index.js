@@ -15,12 +15,12 @@ var Grille = function(spreadsheet_id, storage, timeout) {
 };
 
 /**
- * Loads the current CMS versions data
+ * Loads the default CMS versions data
  */
 Grille.prototype.load = function(callback) {
 	var self = this;
 
-	this.storage.loadCurrentVersion(function(err, data) {
+	this.storage.loadDefaultVersion(function(err, data) {
 		if (err || !data) {
 			return self.spreadsheet.load(function(err, data) {
 				if (err) {
@@ -87,7 +87,7 @@ Grille.prototype.update = function(callback) {
 				return callback(err);
 			}
 
-			self.storage.setCurrentVersion(self.version, function(err) {
+			self.storage.setDefaultVersion(self.version, function(err) {
 				if (err) {
 					return callback(err);
 				}

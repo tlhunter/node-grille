@@ -5,7 +5,7 @@ var assert = require('assert');
 var Worksheet = require('../lib/worksheet.js');
 var ValidationError = require('../lib/errors/validation.js');
 
-describe("worksheet", function() {
+describe("Worksheet", function() {
     var worksheet;
 
     before(function() {

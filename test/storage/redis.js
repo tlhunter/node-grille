@@ -13,16 +13,16 @@ describe("RedisGrilleStorage", function() {
         }
     };
 
-    it("sets current version", function(done) {
-        storage.setCurrentVersion('20150301164200', function(err) {
+    it("sets default version", function(done) {
+        storage.setDefaultVersion('20150301164200', function(err) {
             assert.ifError(err);
 
             done();
         });
     });
 
-    it("gets current version", function(done) {
-        storage.getCurrentVersion(function(err, version) {
+    it("gets default version", function(done) {
+        storage.getDefaultVersion(function(err, version) {
             assert.ifError(err);
 
             assert.strictEqual(version, '20150301164200');
@@ -58,14 +58,14 @@ describe("RedisGrilleStorage", function() {
         });
     });
 
-    it("loads current version", function(done) {
+    it("loads default version", function(done) {
         storage.save('2', content, function(err) {
             assert.ifError(err);
 
-            storage.setCurrentVersion('2', function(err) {
+            storage.setDefaultVersion('2', function(err) {
                 assert.ifError(err);
 
-                storage.loadCurrentVersion(function(err, data) {
+                storage.loadDefaultVersion(function(err, data) {
                     assert.deepEqual(content, data);
 
                     done();

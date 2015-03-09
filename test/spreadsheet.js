@@ -5,7 +5,7 @@ var sinon = require('sinon');
 
 var Spreadsheet = require('../lib/spreadsheet.js');
 
-describe("spreadsheet", function() {
+describe("Spreadsheet", function() {
     var spreadsheet;
 
     before(function() {
