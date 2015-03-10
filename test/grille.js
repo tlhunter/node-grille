@@ -6,7 +6,11 @@ var Grille = require('../lib/grille.js');
 var RedisGrilleStorage = require('../lib/storage/redis.js');
 
 describe("Grille", function() {
-    var storage = new RedisGrilleStorage();
+    var storage = new RedisGrilleStorage({
+        current: 'grille-test-current',
+        collection: 'grille-test-collection'
+    });
+
     var grille = new Grille('1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04', storage);
     var version;
 
