@@ -32,11 +32,15 @@ describe("Grille", function() {
         });
     });
 
+    it("fails to retrieve data when not present", function() {
+        assert.equal(grille.get('people'), null);
+        assert.equal(grille.get('people', 1), null);
+    });
+
     describe("integration tests", function() {
         this.timeout(10 * 1000);
 
         it("loads data from google spreadsheets when no default version is set", function(done) {
-
             assert.strictEqual(grille.version, null);
 
             grille.load(function(err, data) {
@@ -50,6 +54,11 @@ describe("Grille", function() {
 
                 done();
             });
+        });
+
+        it("retrieves data", function() {
+            assert.equal(grille.get('people')['1'].name, 'Thomas Hunter II');
+            assert.equal(grille.get('people', 1).name, 'Thomas Hunter II');
         });
 
         it("loads data from storage when available", function(done) {
