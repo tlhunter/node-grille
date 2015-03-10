@@ -70,6 +70,97 @@ describe("Spreadsheet", function() {
         ]);
     });
 
+    it("dotSet() simple", function() {
+        var destination = {};
+        var source = 'banana';
+        var path = 'x';
+
+        Spreadsheet.dotSet(destination, source, path);
+
+        assert.deepEqual(destination, {
+            x: 'banana'
+        });
+    });
+
+    it("dotSet()", function() {
+        var destination = {
+            x: {
+                b: 1
+            },
+            a: 2
+        };
+        var source = 'banana';
+        var path = 'x.y.z';
+
+        Spreadsheet.dotSet(destination, source, path);
+
+        assert.deepEqual(destination, {
+            x: {
+                b: 1,
+                y: {
+                    z: 'banana'
+                }
+            },
+            a: 2
+        });
+    });
+
+    it("dotMerge() simple", function() {
+        var destination = {};
+        var source = {
+            a: 1,
+            b: 2
+        };
+
+        var path = 'x';
+
+        Spreadsheet.dotMerge(destination, source, path);
+
+        assert.deepEqual(destination, {
+            x: {
+                a: 1,
+                b: 2
+            }
+        });
+    });
+
+    it("dotMerge()", function() {
+        var destination = {
+            x: {
+                b: 1,
+                keyval: {
+                    dog: 1,
+                    cat: 2,
+                    fish: 3
+                }
+            },
+            a: 2
+        };
+        var source = {
+            fish: 4,
+            frog: 5,
+            horse: 6
+        };
+
+        var path = 'x.keyval';
+
+        Spreadsheet.dotMerge(destination, source, path);
+
+        assert.deepEqual(destination, {
+            x: {
+                b: 1,
+                keyval: {
+                    dog: 1,
+                    cat: 2,
+                    fish: 4,
+                    frog: 5,
+                    horse: 6
+                }
+            },
+            a: 2
+        });
+    });
+
     describe("integration tests", function() {
         this.timeout(10 * 1000);
 
@@ -87,10 +178,9 @@ describe("Spreadsheet", function() {
                 assert.strictEqual(spreadsheet.get('keyvalue', 'seconds_in_minutes'), data.keyvalue.seconds_in_minutes);
                 assert.strictEqual(spreadsheet.get('keyvalue', 'hours_in_day'), data.keyvalue.hours_in_day);
 
-                // TODO: These should be split on .'s
-                assert.deepEqual(spreadsheet.get('levels.0'), data['levels.0']);
-                assert.deepEqual(spreadsheet.get('levels.1'), data['levels.1']);
-                assert.deepEqual(spreadsheet.get('levels.secret'), data['levels.secret']);
+                assert.deepEqual(spreadsheet.get('levels', 0), data.levels[0]);
+                assert.deepEqual(spreadsheet.get('levels', 1), data.levels[1]);
+                assert.deepEqual(spreadsheet.get('levels', 'secret'), data.levels.secret);
 
                 assert.deepEqual(spreadsheet.toJSON(), data);
 
