@@ -14,6 +14,10 @@ describe("Grille", function() {
         storage.clear(done);
     });
 
+    after(function(done) {
+        storage.clear(done);
+    });
+
     it("fails loading an invalid version", function(done) {
         grille.loadVersion('asdf', function(err, data) {
             assert(err);
