@@ -79,6 +79,12 @@ describe("Grille", function() {
             });
         });
 
+        it("JSON serializes data", function() {
+            var unserialized = JSON.parse(JSON.stringify(grille));
+
+            assert.deepEqual(grille.content, unserialized);
+        });
+
         it("grabs new content from Google replacing the same version", function(done) {
             grille.update(function(err, data, version) {
                 assert.ifError(err);
