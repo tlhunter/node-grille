@@ -1,6 +1,6 @@
 {
   "name": "grille",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Simple CMS using Google Spreadsheets",
   "main": "lib/grille.js",
   "directories": {
