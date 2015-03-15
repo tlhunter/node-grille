@@ -1,16 +1,22 @@
 # Grille: Google Spreadsheet CMS
 
-Why Grille? Well, they look like a grid... So does a Spreadsheet... eh.
+Grille is a simple yet powerful tool for extracting data from Google Spreadsheets and transforming it into an easily consumable form.
+
+Grille provides an extensible mechanism for storing and retrieving old versions of data.
+
 
 ## Purpose
 
 Retrieve application data from Google Spreadsheets and store in memory.
-It's sort of like a Content Management System, but if you're storing HTML or WYSIWYG content you're doing it wrong.
+It's sort of like a Content Management System, but if you're storing HTML or WYSIWYG content you're probably using the wrong tool.
 Instead, use this for storing data which needs to be easily configured, e.g. part catalogs or application tuning data.
 
-This does not allow for persisting data in Google Spreadsheets.
+This does not allow for persisting data back into Google Spreadsheets.
 
-## Usage
+Since data is stored in-memory, lookups are fast and don't require callbacks. I/O is only needed when building a new content version.
+
+
+## Example Code
 
 ```javascript
 var Grille = require('grille');
@@ -35,9 +41,133 @@ grille.update(function(err) {
 
 Follow along with the [Demo Spreadsheet](https://docs.google.com/spreadsheets/d/1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04)
 
-At a minimum your spreadsheet needs a meta tab.
+At a minimum your spreadsheet needs a meta worksheet.
 
-The spreadhseet above will generate the following data:
+The spreadhseet above will generate the following data structure:
+
+
+### Example Meta Worksheet
+
+The `meta` worksheet tells Grille how to parse your content.
+It is loaded prior to all other sheets being loaded.
+
+The `id` column correlates to the worksheet (tab) name to be loaded (if it's not listed it's not loaded).
+
+The `collection` column tells Grille where the data for that worksheet should be stored. Note that you can use `.` for specifying deep objects.
+
+The `format` column tells Grille how to convert the data into the final object.
+
+As a convention, all worksheets specify data types as the second row. I suggest using Data Validation (like in the example worksheet).
+
+id                  | collection    | format
+--------------------|---------------|---------
+string              | string        | string
+--------------------|---------------|---------
+people              | people        | hash
+keyvalue\_string    | keyvalue      | keyvalue
+keyvalue\_integer   | keyvalue      | keyvalue
+level\_1            | levels.0      | array
+level\_2            | levels.1      | array
+level\_secret       | levels.secret | array
+
+
+### Example Hash Worksheet
+
+This will likely be the most common format you use.
+Data is loaded into an object where each key is the value in the `id` column.
+The `id` column should be a number or a string and each row should have a unique value.
+
+
+id      | name              | likesgum  | gender
+--------|-------------------|-----------|------
+integer | string            | boolean   | string
+--------|-------------------|-----------|------
+1       | Rupert Styx       | FALSE     | m
+2       | Lurch             | FALSE     | m
+
+#### Hash Output
+
+```json
+{
+    "people": {
+        "1": {
+            "gender": "m",
+            "id": 2,
+            "likesgum": false,
+            "name": "Rupert Styx"
+        },
+        "2": {
+            "gender": "f",
+            "id": 3,
+            "likesgum": true,
+            "name": "Morticia Addams"
+        }
+    }
+}
+```
+
+
+### Example KeyValue Worksheet
+
+KeyValue worksheets provide a simple collection for looking up data.
+
+Since each worksheet can only contain a single data type, I recommend using multiple sheets for different types and merging them together.
+Simply set the resulting `meta` collections for multiple sheets to be the same (see above) and they will be merged together as expected.
+
+id          | value
+------------|-----------------
+string      | string
+------------|-----------------
+title       | Simple CMS Demo
+author      | Thomas Hunter II
+
+#### KeyValue Output
+
+```json
+{
+    "keyvalue": {
+        "author": "Thomas Hunter II",
+        "title": "Simple CMS Demo"
+    }
+}
+```
+
+
+### Example Array Worksheet
+
+Array worksheets are great for building 2D arrays of data.
+A current eyesore is that each column needs to be name `col-*`.
+
+id      | col-1     | col-2     | col-3     | col-4
+--------|-----------|-----------|-----------|-------
+integer | string    | string    | string    | string
+--------|-----------|-----------|-----------|-------
+1       | A         | B         | C         | D
+2       | E         | F         | G         | H
+3       | I         | J         | K         | L
+4       | M         | N         | O         | P
+5       | Q         | R         | S         | T
+6       | U         | V         | W         | X
+
+#### Array Output
+
+```json
+{
+    "level": [
+    [ "A", "B", "C", "D" ],
+    [ "E", "F", "G", "H" ],
+    [ "I", "J", "K", "L" ],
+    [ "M", "N", "O", "P" ],
+    [ "Q", "R", "S", "T" ],
+    [ "U", "V", "W", "X" ]
+  ]
+}
+```
+
+
+### Example Complete Output
+
+This is the complete output from the example spreadsheet:
 
 ```json
 {
@@ -47,30 +177,32 @@ The spreadhseet above will generate the following data:
         "seconds_in_minute": 60,
         "title": "Simple CMS Demo"
     },
-    "levels.0": [
+    "levels": {
+      "0": [
         [ "A", "B", "C", "D" ],
         [ "E", "F", "G", "H" ],
         [ "I", "J", "K", "L" ],
         [ "M", "N", "O", "P" ],
         [ "Q", "R", "S", "T" ],
         [ "U", "V", "W", "X" ]
-    ],
-    "levels.1": [
+      ],
+      "1": [
         [ "A", "B", "C", "D" ],
         [ "E", "F", "G", "H" ],
         [ "I", "J", "K", "L" ],
         [ "M", "N", "O", "P" ],
         [ "Q", "R", "S", "T" ],
         [ "U", "V", "W", "X" ]
-    ],
-    "levels.secret": [
+      ],
+      "secret": [
         [ "A", "B", "C", "D" ],
         [ "E", "F", "G", "H" ],
         [ "I", "J", "K", "L" ],
         [ "M", "N", "O", "P" ],
         [ "Q", "R", "S", "T" ],
         [ "U", "V", "W", "X" ]
-    ],
+      ]
+    },
     "people": {
         "1": {
             "gender": "m",
@@ -100,8 +232,14 @@ The spreadhseet above will generate the following data:
 }
 ```
 
-## Class Breakdown
+## Storage
+
+If you'd like to configure how data is stored, see the example [RedisGrilleStorage](https://github.com/tlhunter/node-grille/blob/master/lib/storage/redis.js) object.
+
+
+## Classes
 
 * Worksheet: Represents a single tab in a Google Spreadsheet
 * Spreadsheet: Represents a Google Spreadsheet
 * Grille: Persists and loads data related to a Spreadsheet
+* RedisGrilleStorage: Example storage engine
