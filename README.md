@@ -228,9 +228,35 @@ This is the complete output from the example spreadsheet:
 }
 ```
 
+## Data Types
+
+Grille supports the following list of data types:
+
+Name            | Examples
+----------------|----------------------
+integer         | 1, -2, 99999
+json            | [1, 2, 3], {"a": "b"}
+string          | Banana
+boolean         | TRUE/FALSE
+float           | 1.2, 99.9, 2
+array           | [1, true, "blah"]
+array.integer   | [1, 2, 3]
+array.string    | ["first", "second"]
+array.boolean   | [true, false]
+array.float     | [1, 1.1, 1.2]
+
+I recommend using data validation on the second row of a worksheet to enforce these (see example spreadsheet).
+
 ## Storage
 
 If you'd like to configure how data is stored, see the example [RedisGrilleStorage](https://github.com/tlhunter/node-grille/blob/master/lib/storage/redis.js) object.
+
+
+## Limitation's / Gotcha's
+
+* Column names cannot have underscores (Google API Limitation)
+* Can't have columns named `content`, `save`, `del`, `title`
+* Loading data is slow and will often timeout for larger spreadsheets
 
 
 ## Classes
