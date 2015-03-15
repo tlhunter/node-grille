@@ -256,7 +256,7 @@ If you'd like to configure how data is stored, see the example [RedisGrilleStora
 
 * Column names cannot have underscores (Google API Limitation)
 * Can't have columns named `content`, `save`, `del`, `title`
-* Loading data is slow and will often timeout for larger spreadsheets
+* Loading data is slow and can timeout for larger spreadsheets
 
 
 ## Classes
