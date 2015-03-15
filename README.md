@@ -4,6 +4,8 @@ Grille is a simple yet powerful tool for extracting data from Google Spreadsheet
 
 Grille provides an extensible mechanism for storing and retrieving old versions of data.
 
+![Grille Spreadsheet Screenshot](https://thomashunter.name/examples/grille.png)
+
 
 ## Purpose
 
