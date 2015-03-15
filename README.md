@@ -20,6 +20,7 @@ Since data is stored in-memory, lookups are fast and don't require callbacks. I/
 
 ```javascript
 var Grille = require('grille');
+require('redis'); // Defaults to storing data in Redis, can be overridden
 
 var grille = new Grille('1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04');
 
