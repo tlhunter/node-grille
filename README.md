@@ -62,7 +62,6 @@ As a convention, all worksheets specify data types as the second row. I suggest 
 id                  | collection    | format
 --------------------|---------------|---------
 string              | string        | string
---------------------|---------------|---------
 people              | people        | hash
 keyvalue\_string    | keyvalue      | keyvalue
 keyvalue\_integer   | keyvalue      | keyvalue
@@ -81,7 +80,6 @@ The `id` column should be a number or a string and each row should have a unique
 id      | name              | likesgum  | gender
 --------|-------------------|-----------|------
 integer | string            | boolean   | string
---------|-------------------|-----------|------
 1       | Rupert Styx       | FALSE     | m
 2       | Lurch             | FALSE     | m
 
@@ -117,7 +115,6 @@ Simply set the resulting `meta` collections for multiple sheets to be the same (
 id          | value
 ------------|-----------------
 string      | string
-------------|-----------------
 title       | Simple CMS Demo
 author      | Thomas Hunter II
 
@@ -141,7 +138,6 @@ A current eyesore is that each column needs to be name `col-*`.
 id      | col-1     | col-2     | col-3     | col-4
 --------|-----------|-----------|-----------|-------
 integer | string    | string    | string    | string
---------|-----------|-----------|-----------|-------
 1       | A         | B         | C         | D
 2       | E         | F         | G         | H
 3       | I         | J         | K         | L
