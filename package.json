@@ -13,6 +13,7 @@
   "license": "BSD",
   "dependencies": {
     "async": "^0.9.0",
+    "deep-extend": "^0.3.3",
     "google-spreadsheet": "^0.2.8",
     "lodash": "^3.3.1"
   },

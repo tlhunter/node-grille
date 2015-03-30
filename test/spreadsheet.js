@@ -13,11 +13,11 @@ describe("Spreadsheet", function() {
     });
 
     it("updates timeout", function() {
+        assert.strictEqual(spreadsheet.timeout, 5000);
+
+        spreadsheet.setTimeout(10000);
+
         assert.strictEqual(spreadsheet.timeout, 10000);
-
-        spreadsheet.setTimeout(9000);
-
-        assert.strictEqual(spreadsheet.timeout, 9000);
     });
 
     it("doesn't get data when not ready", function() {
