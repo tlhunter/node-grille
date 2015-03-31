@@ -105,6 +105,7 @@ describe("Worksheet", function() {
             pets: 'json',
             oddsnends: 'array',
             friends: 'array.string',
+            comment: 'ignore',
             luckynumbers: 'array.integer',
             cointosses: 'array.boolean',
             yarnlengths: 'array.float'
@@ -119,6 +120,7 @@ describe("Worksheet", function() {
             pets: '{ "shadow": "cat", "captain": "betta" }',
             oddsnends: '[1, "b"]',
             friends: '["john", "jack", "jose"]',
+            comment: 'not gonna exist',
             luckynumbers: '[1, 2, 3]',
             cointosses: '[false, true]',
             yarnlengths: '[1.1, 3.4]'
