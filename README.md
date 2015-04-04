@@ -253,6 +253,20 @@ I recommend using data validation on the second row of a worksheet to enforce th
 If you'd like to configure how data is stored, see the example [RedisGrilleStorage](https://github.com/tlhunter/node-grille/blob/master/lib/storage/redis.js) object.
 
 
+## Multiple Spreadsheets
+
+Grille has support for multiple spreadsheets. Simply provide an array of Spreadsheet IDs instead of a single ID.
+
+Each document should have its own meta tab, and the data from each sheet will be combined into the same object.
+
+```javascript
+var grille = new Grille([
+  '1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04',
+  '11_2RBdN37Q-LawzfFEJBlF3JfeDX5tC1Rp0QdAvAvoc'
+]);
+```
+
+
 ## Limitation's / Gotcha's
 
 * Column names cannot have underscores (Google API Limitation)
