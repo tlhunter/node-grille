@@ -56,9 +56,9 @@ It is loaded prior to all other sheets being loaded.
 
 The `id` column correlates to the worksheet (tab) name to be loaded (if it's not listed it's not loaded).
 
-The `collection` column tells Grille where the data for that worksheet should be stored. Note that you can use `.` for specifying deep objects.
+The `collection` column tells Grille which top-level attribute the data for that worksheet should be stored at. Note that you can use `.` for specifying deeper nested objects.
 
-The `format` column tells Grille how to convert the data into the final object.
+The `format` column tells Grille which method to use when converting the raw worksheet into a native object.
 
 As a convention, all worksheets specify data types as the second row. I suggest using Data Validation (like in the example worksheet).
 
