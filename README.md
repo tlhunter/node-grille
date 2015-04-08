@@ -84,7 +84,7 @@ id      | name              | likesgum  | gender
 --------|-------------------|-----------|------
 integer | string            | boolean   | string
 1       | Rupert Styx       | FALSE     | m
-2       | Lurch             | FALSE     | m
+2       | Morticia Addams   | TRUE      | f
 
 #### Hash Output
 
@@ -99,7 +99,7 @@ integer | string            | boolean   | string
         },
         "2": {
             "gender": "f",
-            "id": 3,
+            "id": 2,
             "likesgum": true,
             "name": "Morticia Addams"
         }
