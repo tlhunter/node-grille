@@ -31,6 +31,12 @@ describe("Grille", function() {
         });
     });
 
+    it("empty content is immutable", function() {
+        assert.throws(function() {
+            grille.content.x = true;
+        }, TypeError);
+    });
+
     it("fails to retrieve data when not present", function() {
         assert.equal(grille.get('people'), null);
         assert.equal(grille.get('people', 1), null);
@@ -54,6 +60,13 @@ describe("Grille", function() {
                 assert.strictEqual(grille.content.version, grille.version);
                 assert(grille.content.keyvalue);
                 assert(grille.content.people);
+
+                assert.deepEqual(data, grille.content);
+
+                assert.throws(function() {
+                    grille.content.people.xyz = 1;
+                }, TypeError);
+                assert.strictEqual(grille.content.people.xyz, undefined); // Fresh data should be immutable
 
                 version = grille.version;
 
@@ -80,6 +93,11 @@ describe("Grille", function() {
                 assert(grille.content.keyvalue);
                 assert(grille.content.people);
 
+                assert.throws(function() {
+                    grille.content.people.xyz = 1;
+                }, TypeError);
+                assert.strictEqual(grille.content.people.xyz, undefined); // Stored data should be immutable
+
                 done();
             });
         });
@@ -95,6 +113,11 @@ describe("Grille", function() {
                 assert.strictEqual(version, grille.content.version);
                 assert(grille.content.keyvalue);
                 assert(grille.content.people);
+
+                assert.throws(function() {
+                    grille.content.people.xyz = 1;
+                }, TypeError);
+                assert.strictEqual(grille.content.people.xyz, undefined); // Stored data should be immutable
 
                 done();
             });
@@ -119,6 +142,11 @@ describe("Grille", function() {
 
                 assert.deepEqual(grille.content.keyvalue, data.keyvalue);
                 assert.deepEqual(grille.content.people, data.people);
+
+                assert.throws(function() {
+                    grille.content.people.xyz = 1;
+                }, TypeError);
+                assert.strictEqual(grille.content.people.xyz, undefined); // Replaced data should be immutable
 
                 done();
             });
@@ -150,6 +178,11 @@ describe("Grille", function() {
                     assert(grille_multi.content.keyvalue);
                     assert(grille_multi.content.people);
                     assert(grille_multi.content.puppies);
+
+                    assert.throws(function() {
+                        grille.content.people.xyz = 1;
+                    }, TypeError);
+                    assert.strictEqual(grille.content.people.xyz, undefined); // Multi sheet data should be immutable
 
                     version = grille_multi.version;
 
