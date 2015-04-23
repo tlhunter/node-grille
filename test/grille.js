@@ -38,8 +38,7 @@ describe("Grille", function() {
     });
 
     it("fails to retrieve data when not present", function() {
-        assert.equal(grille.get('people'), null);
-        assert.equal(grille.get('people', 1), null);
+        assert.equal(grille.content.people, undefined);
     });
 
     it("generates sane version numbers", function() {
@@ -75,8 +74,7 @@ describe("Grille", function() {
         });
 
         it("retrieves data", function() {
-            assert.equal(grille.get('people')['1'].name, 'Thomas Hunter II');
-            assert.equal(grille.get('people', 1).name, 'Thomas Hunter II');
+            assert.equal(grille.content.people['1'].name, 'Thomas Hunter II');
         });
 
         it("loads data from storage when available", function(done) {
@@ -191,17 +189,16 @@ describe("Grille", function() {
             });
 
             it("retrieves data", function() {
-                assert.equal(grille_multi.get('people')['1'].name, 'Thomas Hunter II');
-                assert.equal(grille_multi.get('people', 1).name, 'Thomas Hunter II');
+                assert.equal(grille_multi.content.people['1'].name, 'Thomas Hunter II');
 
-                assert.deepEqual(grille_multi.get('puppies'), {
+                assert.deepEqual(grille_multi.content.puppies, {
                     '1': { id: '1', name: 'Fido' },
                     '2': { id: '2', name: 'Clifford' },
                     '3': { id: '3', name: 'Scruff McGruff' },
                     '4': { id: '4', name: 'Cerberus' },
                 });
 
-                assert.deepEqual(grille_multi.get('keyvalue'), {
+                assert.deepEqual(grille_multi.content.keyvalue, {
                     title: 'Simple CMS Demo',
                     author: 'Thomas Hunter II',
                     seconds_in_minute: 60,
