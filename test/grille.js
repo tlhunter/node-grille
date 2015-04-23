@@ -51,6 +51,7 @@ describe("Grille", function() {
                 assert.ifError(err);
 
                 assert.equal(grille.version.length, 14);
+                assert.strictEqual(grille.content.version, grille.version);
                 assert(grille.content.keyvalue);
                 assert(grille.content.people);
 
@@ -69,11 +70,13 @@ describe("Grille", function() {
             this.timeout(100);
 
             assert.strictEqual(grille.version, version);
+            assert.strictEqual(grille.content.version, version);
 
             grille.load(function(err, data) {
                 assert.ifError(err);
 
                 assert.equal(grille.version.length, 14);
+                assert.strictEqual(grille.version, grille.content.version);
                 assert(grille.content.keyvalue);
                 assert(grille.content.people);
 
@@ -89,6 +92,7 @@ describe("Grille", function() {
 
                 assert.equal(grille.version.length, 14);
                 assert.strictEqual(version, grille.version);
+                assert.strictEqual(version, grille.content.version);
                 assert(grille.content.keyvalue);
                 assert(grille.content.people);
 
@@ -111,6 +115,7 @@ describe("Grille", function() {
                 // Unforunately we can't test the content being updated during the test
                 // Version numbers are based on last modified time of sheet
                 assert.strictEqual(version, grille.version);
+                assert.strictEqual(version, grille.content.version);
 
                 assert.deepEqual(grille.content.keyvalue, data.keyvalue);
                 assert.deepEqual(grille.content.people, data.people);
@@ -141,6 +146,7 @@ describe("Grille", function() {
                     assert.ifError(err);
 
                     assert.equal(grille_multi.version.length, 14);
+                    assert.equal(grille_multi.version, grille_multi.content.version);
                     assert(grille_multi.content.keyvalue);
                     assert(grille_multi.content.people);
                     assert(grille_multi.content.puppies);
