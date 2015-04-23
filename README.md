@@ -64,9 +64,9 @@ As a convention, all worksheets specify data types as the second row. I suggest 
 
 id                  | collection    | format
 --------------------|---------------|---------
-string              | string        | string
+text                | text          | text
 people              | people        | hash
-keyvalue\_string    | keyvalue      | keyvalue
+keyvalue\_text      | keyvalue      | keyvalue
 keyvalue\_integer   | keyvalue      | keyvalue
 level\_1            | levels.0      | array
 level\_2            | levels.1      | array
@@ -82,7 +82,7 @@ The `id` column should be a number or a string and each row should have a unique
 
 id      | name              | likesgum  | gender
 --------|-------------------|-----------|------
-integer | string            | boolean   | string
+integer | text              | boolean   | text
 1       | Rupert Styx       | FALSE     | m
 2       | Morticia Addams   | TRUE      | f
 
@@ -117,7 +117,7 @@ Simply set the resulting `meta` collections for multiple sheets to be the same (
 
 id          | value
 ------------|-----------------
-string      | string
+text        | text
 title       | Simple CMS Demo
 author      | Thomas Hunter II
 
@@ -140,7 +140,7 @@ A current eyesore is that each column needs to be name `col-*`.
 
 id      | col-1     | col-2     | col-3     | col-4
 --------|-----------|-----------|-----------|-------
-integer | string    | string    | string    | string
+integer | text      | text      | text      | text
 1       | A         | B         | C         | D
 2       | E         | F         | G         | H
 3       | I         | J         | K         | L
@@ -239,14 +239,14 @@ Name            | Examples
 ----------------|----------------------
 integer         | 1, -2, 99999
 json            | [1, 2, 3], {"a": "b"}
-string          | Banana
+text            | Banana
 boolean         | TRUE/FALSE
-float           | 1.2, 99.9, 2
+number          | 1.2, 99.9, 2
 array           | [1, true, "blah"]
-array.integer   | [1, 2, 3]
-array.string    | ["first", "second"]
-array.boolean   | [true, false]
-array.float     | [1, 1.1, 1.2]
+integers        | [1, 2, 3]
+texts           | ["first", "second"]
+booleans        | [true, false]
+numbers         | [1, 1.1, 1.2]
 
 I recommend using data validation on the second row of a worksheet to enforce these (see example spreadsheet).
 
