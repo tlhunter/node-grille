@@ -98,17 +98,17 @@ describe("Worksheet", function() {
     it("converts keys", function() {
         var descriptors = {
             id: 'integer',
-            name: 'string',
+            name: 'text',
             likesgum: 'boolean',
-            gender: 'string',
-            money: 'float',
+            gender: 'text',
+            money: 'number',
             pets: 'json',
             oddsnends: 'array',
-            friends: 'array.string',
+            friends: 'texts',
             comment: 'ignore',
-            luckynumbers: 'array.integer',
-            cointosses: 'array.boolean',
-            yarnlengths: 'array.float'
+            luckynumbers: 'integers',
+            cointosses: 'booleans',
+            yarnlengths: 'numbers'
         };
 
         var row = {
@@ -187,10 +187,10 @@ describe("Worksheet", function() {
         }, ValidationError);
     });
 
-    it("fails validation for array.integer", function() {
+    it("fails validation for integers", function() {
         var descriptors = {
             id: 'integer',
-            items: 'array.integer'
+            items: 'integers'
         };
 
         var row = {
@@ -221,10 +221,10 @@ describe("Worksheet", function() {
         }, ValidationError);
     });
 
-    it("fails validation for array.string", function() {
+    it("fails validation for texts", function() {
         var descriptors = {
             id: 'integer',
-            items: 'array.string'
+            items: 'texts'
         };
 
         var row = {
@@ -255,10 +255,10 @@ describe("Worksheet", function() {
         }, ValidationError);
     });
 
-    it("fails validation for array.boolean", function() {
+    it("fails validation for booleans", function() {
         var descriptors = {
             id: 'integer',
-            items: 'array.boolean'
+            items: 'booleans'
         };
 
         var row = {
@@ -289,10 +289,10 @@ describe("Worksheet", function() {
         }, ValidationError);
     });
 
-    it("fails validation for array.float", function() {
+    it("fails validation for numbers", function() {
         var descriptors = {
             id: 'integer',
-            items: 'array.float'
+            items: 'numbers'
         };
 
         var row = {
