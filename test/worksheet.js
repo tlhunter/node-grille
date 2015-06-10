@@ -402,7 +402,7 @@ describe("Worksheet", function() {
         var result = Worksheet.convertKeys(descriptors, row);
 
         assert.equal(typeof result.blob, 'object');
-        assert.deepEqual(result.blob, {});
+        assert.deepEqual(result.blob, null);
     });
 
     describe("integration tests", function() {
