@@ -355,6 +355,56 @@ describe("Worksheet", function() {
         assert.strictEqual(result.items, '999');
     });
 
+    it("converts empty cells of type arrays to empty arrays", function() {
+        var descriptors = {
+            items: 'array',
+            integers: 'array.integer',
+            strings: 'array.string',
+            flags: 'array.boolean',
+            floats: 'array.float'
+        };
+
+        var row = {
+            items: '',
+            integers: '',
+            strings: '',
+            flags: '',
+            floats: ''
+        };
+
+        var result = Worksheet.convertKeys(descriptors, row);
+
+        assert(Array.isArray(result.items));
+        assert.strictEqual(result.items.length, 0);
+
+        assert(Array.isArray(result.integers));
+        assert.strictEqual(result.integers.length, 0);
+
+        assert(Array.isArray(result.strings));
+        assert.strictEqual(result.strings.length, 0);
+
+        assert(Array.isArray(result.flags));
+        assert.strictEqual(result.flags.length, 0);
+
+        assert(Array.isArray(result.floats));
+        assert.strictEqual(result.floats.length, 0);
+    });
+
+    it("converts empty cells of type json to empty objects", function() {
+        var descriptors = {
+            blob: 'json'
+        };
+
+        var row = {
+            blob: ''
+        };
+
+        var result = Worksheet.convertKeys(descriptors, row);
+
+        assert.equal(typeof result.blob, 'object');
+        assert.deepEqual(result.blob, {});
+    });
+
     describe("integration tests", function() {
         this.timeout(10 * 1000);
 
