@@ -10,7 +10,7 @@
     "test": "./node_modules/mocha/bin/mocha"
   },
   "author": "Thomas Hunter II <me@thomashunter.name>",
-  "license": "BSD",
+  "license": "BSD-2-Clause",
   "dependencies": {
     "async": "^0.9.0",
     "deep-extend": "^0.3.3",
