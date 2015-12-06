@@ -1,6 +1,7 @@
 'use strict';
 
 var assert = require('assert');
+var sinon = require('sinon');
 
 var Grille = require('../lib/grille.js');
 
@@ -10,10 +11,21 @@ describe("Grille", function() {
     collection: 'grille-test-collection'
   });
 
-  var grille = new Grille('1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04', storage);
+  var transform = sinon.spy(function(data) {
+    assert(data);
+    data.has_transformed = true;
+    return data;
+  });
+
+  var grille = new Grille('1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04', {
+    storage: storage,
+    transform: transform
+  });
+
   var version;
 
   before(function(done) {
+    transform.reset();
     storage.clear(done);
   });
 
@@ -24,6 +36,7 @@ describe("Grille", function() {
   it("fails loading an invalid version", function(done) {
     grille.loadVersion('asdf', function(err, data) {
       assert(err);
+      assert(transform.notCalled);
 
       assert.strictEqual(data, undefined);
 
@@ -55,6 +68,10 @@ describe("Grille", function() {
 
       grille.load(function(err, data) {
         assert.ifError(err);
+
+        assert(transform.calledOnce); // Initial load will trigger a transform
+        assert.deepEqual(transform.args[0][0], data);
+        assert(data.has_transformed);
 
         assert.equal(grille.version.length, 14);
         assert.strictEqual(grille.content.version, grille.version);
@@ -88,6 +105,8 @@ describe("Grille", function() {
       grille.load(function(err) {
         assert.ifError(err);
 
+        assert(transform.calledOnce); // load gets already-transformed data, don't call again
+
         assert.equal(grille.version.length, 14);
         assert.strictEqual(grille.version, grille.content.version);
         assert(grille.content.keyvalue);
@@ -107,6 +126,8 @@ describe("Grille", function() {
 
       grille.loadVersion(version, function(err) {
         assert.ifError(err);
+
+        assert(transform.calledOnce); // loadVersion gets already-transformed data, don't call again
 
         assert.equal(grille.version.length, 14);
         assert.strictEqual(version, grille.version);
@@ -135,6 +156,10 @@ describe("Grille", function() {
 
         assert.equal(grille.version.length, 14);
 
+        assert(transform.calledTwice); // Does get called again for update
+        assert.deepEqual(transform.args[1][0], data);
+        assert(data.has_transformed);
+
         // Unforunately we can't test the content being updated during the test
         // Version numbers are based on last modified time of sheet
         assert.strictEqual(version, grille.version);
@@ -154,9 +179,16 @@ describe("Grille", function() {
   });
 
   describe("works with multiple sheets", function() {
-    var grille_multi = new Grille(['1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04', '11_2RBdN37Q-LawzfFEJBlF3JfeDX5tC1Rp0QdAvAvoc'], storage);
+    var grille_multi = new Grille([
+      '1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04',
+      '11_2RBdN37Q-LawzfFEJBlF3JfeDX5tC1Rp0QdAvAvoc'
+    ], {
+      storage: storage,
+      transform: transform
+    });
 
     before(function(done) {
+      transform.reset();
       storage.clear(done);
     });
 
@@ -170,8 +202,12 @@ describe("Grille", function() {
       it("loads data from google spreadsheets when no default version is set", function(done) {
         assert.strictEqual(grille_multi.version, null);
 
-        grille_multi.load(function(err) {
+        grille_multi.load(function(err, data) {
           assert.ifError(err);
+
+          assert(transform.calledOnce);
+          assert.deepEqual(transform.args[0][0], data);
+          assert(data.has_transformed);
 
           assert.equal(grille_multi.version.length, 14);
           assert.equal(grille_multi.version, grille_multi.content.version);

@@ -27,16 +27,15 @@ require('redis'); // Defaults to storing data in Redis, can be overridden
 var grille = new Grille('1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04');
 
 grille.load(function(err) {
-    console.log(grille.get('keyvalue', 'author'));
-
-	// run application
+  console.log(grille.get('keyvalue', 'author'));
+  // run application
 });
 
 // Whenever you want to update Grille to use the lastest data
 console.log('old version', grille.version);
 grille.update(function(err) {
-    console.log(grille.get('keyvalue', 'author'));
-    console.log('new version', grille.version);
+  console.log(grille.get('keyvalue', 'author'));
+  console.log('new version', grille.version);
 });
 ```
 
@@ -90,20 +89,20 @@ integer | string            | boolean   | string
 
 ```json
 {
-    "people": {
-        "1": {
-            "gender": "m",
-            "id": 1,
-            "likesgum": false,
-            "name": "Rupert Styx"
-        },
-        "2": {
-            "gender": "f",
-            "id": 2,
-            "likesgum": true,
-            "name": "Morticia Addams"
-        }
+  "people": {
+    "1": {
+      "gender": "m",
+      "id": 1,
+      "likesgum": false,
+      "name": "Rupert Styx"
+    },
+    "2": {
+      "gender": "f",
+      "id": 2,
+      "likesgum": true,
+      "name": "Morticia Addams"
     }
+  }
 }
 ```
 
@@ -125,10 +124,10 @@ author      | Thomas Hunter II
 
 ```json
 {
-    "keyvalue": {
-        "author": "Thomas Hunter II",
-        "title": "Simple CMS Demo"
-    }
+  "keyvalue": {
+    "author": "Thomas Hunter II",
+    "title": "Simple CMS Demo"
+  }
 }
 ```
 
@@ -152,7 +151,7 @@ integer | string    | string    | string    | string
 
 ```json
 {
-    "level": [
+  "level": [
     [ "A", "B", "C", "D" ],
     [ "E", "F", "G", "H" ],
     [ "I", "J", "K", "L" ],
@@ -170,64 +169,64 @@ This is the complete output from the example spreadsheet:
 
 ```json
 {
-    "keyvalue": {
-        "author": "Thomas Hunter II",
-        "hours_in_day": 24,
-        "seconds_in_minute": 60,
-        "title": "Simple CMS Demo"
+  "keyvalue": {
+    "author": "Thomas Hunter II",
+    "hours_in_day": 24,
+    "seconds_in_minute": 60,
+    "title": "Simple CMS Demo"
+  },
+  "levels": {
+    "0": [
+      [ "A", "B", "C", "D" ],
+      [ "E", "F", "G", "H" ],
+      [ "I", "J", "K", "L" ],
+      [ "M", "N", "O", "P" ],
+      [ "Q", "R", "S", "T" ],
+      [ "U", "V", "W", "X" ]
+    ],
+    "1": [
+      [ "A", "B", "C", "D" ],
+      [ "E", "F", "G", "H" ],
+      [ "I", "J", "K", "L" ],
+      [ "M", "N", "O", "P" ],
+      [ "Q", "R", "S", "T" ],
+      [ "U", "V", "W", "X" ]
+    ],
+    "secret": [
+      [ "A", "B", "C", "D" ],
+      [ "E", "F", "G", "H" ],
+      [ "I", "J", "K", "L" ],
+      [ "M", "N", "O", "P" ],
+      [ "Q", "R", "S", "T" ],
+      [ "U", "V", "W", "X" ]
+    ]
+  },
+  "people": {
+    "1": {
+      "gender": "m",
+      "id": 1,
+      "likesgum": true,
+      "name": "Thomas Hunter II"
     },
-    "levels": {
-      "0": [
-        [ "A", "B", "C", "D" ],
-        [ "E", "F", "G", "H" ],
-        [ "I", "J", "K", "L" ],
-        [ "M", "N", "O", "P" ],
-        [ "Q", "R", "S", "T" ],
-        [ "U", "V", "W", "X" ]
-      ],
-      "1": [
-        [ "A", "B", "C", "D" ],
-        [ "E", "F", "G", "H" ],
-        [ "I", "J", "K", "L" ],
-        [ "M", "N", "O", "P" ],
-        [ "Q", "R", "S", "T" ],
-        [ "U", "V", "W", "X" ]
-      ],
-      "secret": [
-        [ "A", "B", "C", "D" ],
-        [ "E", "F", "G", "H" ],
-        [ "I", "J", "K", "L" ],
-        [ "M", "N", "O", "P" ],
-        [ "Q", "R", "S", "T" ],
-        [ "U", "V", "W", "X" ]
-      ]
+    "2": {
+      "gender": "m",
+      "id": 2,
+      "likesgum": false,
+      "name": "Rupert Styx"
     },
-    "people": {
-        "1": {
-            "gender": "m",
-            "id": 1,
-            "likesgum": true,
-            "name": "Thomas Hunter II"
-        },
-        "2": {
-            "gender": "m",
-            "id": 2,
-            "likesgum": false,
-            "name": "Rupert Styx"
-        },
-        "3": {
-            "gender": "f",
-            "id": 3,
-            "likesgum": true,
-            "name": "Morticia Addams"
-        },
-        "4": {
-            "gender": "m",
-            "id": 4,
-            "likesgum": false,
-            "name": "Lurch"
-        }
+    "3": {
+      "gender": "f",
+      "id": 3,
+      "likesgum": true,
+      "name": "Morticia Addams"
+    },
+    "4": {
+      "gender": "m",
+      "id": 4,
+      "likesgum": false,
+      "name": "Lurch"
     }
+  }
 }
 ```
 
@@ -250,9 +249,31 @@ array.float     | [1, 1.1, 1.2]
 
 I recommend using data validation on the second row of a worksheet to enforce these (see example spreadsheet).
 
-## Storage
 
-If you'd like to configure how data is stored, see the example [RedisGrilleStorage](https://github.com/tlhunter/node-grille/blob/master/lib/storage/redis.js) object.
+## Complex Instantiation Example
+
+Here's a complete example of how to instantiate a Grille instance, showing all of the default values:
+
+```javascript
+var Grille = require('grille');
+
+var grille = new Grille(['SHEET-ID-1', 'SHEET-ID-2', 'SHEET-ID-3'], {
+  storage: new Grille.RedisGrilleStorage({
+    host: '127.0.0.1',
+    port: 6376,
+    current: 'grille-test-current',
+    collection: 'grille-test-collection'
+  }),
+  transform: function(content) {
+    return content;
+  },
+  timeout: 5 * 1000,
+  parallel: 5,
+  retry: 3
+});
+```
+
+Note: If you'd like to override the storage mechanism, check out the [RedisGrilleStorage](https://github.com/tlhunter/node-grille/blob/master/lib/storage/redis.js) object for reference.
 
 
 ## Multiple Spreadsheets
