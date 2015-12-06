@@ -27,14 +27,14 @@ require('redis'); // Defaults to storing data in Redis, can be overridden
 var grille = new Grille('1r2SaVhOH6exvevx_syqxCJFDARg-L4N1-uNL9SZAk04');
 
 grille.load(function(err) {
-  console.log(grille.get('keyvalue', 'author'));
+  console.log(grille.content.keyvalue.author);
   // run application
 });
 
 // Whenever you want to update Grille to use the lastest data
 console.log('old version', grille.version);
 grille.update(function(err) {
-  console.log(grille.get('keyvalue', 'author'));
+  console.log(grille.content.keyvalue.author);
   console.log('new version', grille.version);
 });
 ```

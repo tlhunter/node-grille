@@ -20,12 +20,6 @@ describe("Spreadsheet", function() {
     assert.strictEqual(spreadsheet.timeout, 10000);
   });
 
-  it("doesn't get data when not ready", function() {
-    var result = spreadsheet.get('collection');
-
-    assert.strictEqual(result, null);
-  });
-
   it("extracts key value pairs", function() {
     var raw = {
       alpha: {
@@ -168,19 +162,19 @@ describe("Spreadsheet", function() {
       spreadsheet.load(function(err, data) {
         assert.ifError(err);
 
-        assert.deepEqual(spreadsheet.get('people', 1), data.people['1']);
-        assert.deepEqual(spreadsheet.get('people', 2), data.people['2']);
-        assert.deepEqual(spreadsheet.get('people', 3), data.people['3']);
-        assert.deepEqual(spreadsheet.get('people', 4), data.people['4']);
+        assert.deepEqual(spreadsheet.content.people['1'], data.people['1']);
+        assert.deepEqual(spreadsheet.content.people['2'], data.people['2']);
+        assert.deepEqual(spreadsheet.content.people['3'], data.people['3']);
+        assert.deepEqual(spreadsheet.content.people['4'], data.people['4']);
 
-        assert.strictEqual(spreadsheet.get('keyvalue', 'title'), data.keyvalue.title);
-        assert.strictEqual(spreadsheet.get('keyvalue', 'author'), data.keyvalue.author);
-        assert.strictEqual(spreadsheet.get('keyvalue', 'seconds_in_minutes'), data.keyvalue.seconds_in_minutes);
-        assert.strictEqual(spreadsheet.get('keyvalue', 'hours_in_day'), data.keyvalue.hours_in_day);
+        assert.strictEqual(spreadsheet.content.keyvalue.title, data.keyvalue.title);
+        assert.strictEqual(spreadsheet.content.keyvalue.author, data.keyvalue.author);
+        assert.strictEqual(spreadsheet.content.keyvalue.seconds_in_minutes, data.keyvalue.seconds_in_minutes);
+        assert.strictEqual(spreadsheet.content.keyvalue.hours_in_day, data.keyvalue.hours_in_day);
 
-        assert.deepEqual(spreadsheet.get('levels', 0), data.levels[0]);
-        assert.deepEqual(spreadsheet.get('levels', 1), data.levels[1]);
-        assert.deepEqual(spreadsheet.get('levels', 'secret'), data.levels.secret);
+        assert.deepEqual(spreadsheet.content.levels[0], data.levels[0]);
+        assert.deepEqual(spreadsheet.content.levels[1], data.levels[1]);
+        assert.deepEqual(spreadsheet.content.levels['secret'], data.levels.secret);
 
         assert.deepEqual(spreadsheet.toJSON(), data);
 
