@@ -28,7 +28,8 @@
   },
   "keywords": [
     "cms",
-    "spreadsheet"
+    "spreadsheet",
+    "google"
   ],
   "bugs": {
     "url": "https://github.com/tlhunter/node-grille/issues"
