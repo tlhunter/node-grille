@@ -275,7 +275,7 @@ var Grille = require('grille');
 var grille = new Grille(['SHEET-ID-1', 'SHEET-ID-2', 'SHEET-ID-3'], {
   storage: new Grille.RedisGrilleStorage({
     host: '127.0.0.1',
-    port: 6376,
+    port: 6379,
     current: 'grille-test-current',
     collection: 'grille-test-collection'
   }),
