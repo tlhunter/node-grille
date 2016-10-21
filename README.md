@@ -48,6 +48,21 @@ At a minimum your spreadsheet needs a meta worksheet.
 The spreadhseet above will generate the following data structure:
 
 
+### Publishing Google Spreadsheet
+
+For Grille to be able to access the data in your spreadsheet, you need to perform a few steps:
+
+1. Click `File | Publish to the web...`
+2. Publish the document
+3. Copy the long code in the URL (letters, numbers, hyphens, underscores) and dismiss box
+4. Click Share in the upper right corner of the screen
+5. Click the Advanced link in the lower right corner of the dialog
+6. In `Who can access` click the `Change...` link for the first item
+7. Click the first option, `On - Public on the web`
+
+The String you copied during step 3 is the Google Spreadsheet ID that you'll need for use with Grille.
+
+
 ### Example Meta Worksheet
 
 The `meta` worksheet tells Grille how to parse your content.
