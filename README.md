@@ -1,6 +1,6 @@
 # Grille: Google Spreadsheet CMS
 
-![Grille Spreadsheet Screenshot](http://static.thomashunter.name/projects/grille/screenshot.png)
+![Grille Spreadsheet Screenshot](https://github.com/tlhunter/node-grille/blob/master/screenshot.png)
 
 Grille is a simple yet powerful tool for extracting data from Google Spreadsheets and transforming it into an easily consumable form.
 
